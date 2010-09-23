@@ -1,0 +1,23 @@
+PATH
+  remote: .
+  specs:
+    better_jira (0.0.1)
+      httpclient (>= 2.1.5.2)
+      soap4r (= 1.5.8)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    httpclient (2.1.5.2)
+    rake (0.8.7)
+    soap4r (1.5.8)
+      httpclient (>= 2.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  better_jira!
+  httpclient (>= 2.1.5.2)
+  rake
+  soap4r (= 1.5.8)
