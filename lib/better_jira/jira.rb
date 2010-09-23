@@ -183,8 +183,15 @@ module BetterJira
       @soap.addComment(@token, key, options)
     end
   
+    # Gets the available actions for an issue from the server
+    #
+    # @param [String] key the issue to look up
+    #
+    # @return [Hash] keys are the jira id, values are the name of the action
     def available_actions(key)
-      @soap.getAvailableActions(@token, key)
+      ret = {}
+      @soap.getAvailableActions(@token, key).each{|q| ret[q['id']] = q['name']}
+      ret
     end
   
     def get_issue(key)
