@@ -71,8 +71,11 @@ module BetterJira
       end
     end
     
+    # Retrieves all of the versions for a particular project from the Jira server
+    #
+    # @param [String] project_key the project key to look up, ie: "MYPROJ"
     def versions_for_project(project_key)
-      @soap.getVersions(@token, project_key)
+      @soap.getVersions(@token, project_key).map{|x| BetterJira::JiraVersion.convert_from_soap(x)}
     end
   
     def update_issue(key, remote_field_changes)
