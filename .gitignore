@@ -1,3 +1,5 @@
 reports
 .bundle
 better_jira-*.gem
+.yardoc
+doc

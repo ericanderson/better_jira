@@ -11,7 +11,13 @@ module BetterJira
       @client = HTTPClient.new
       @client.ssl_config.set_trust_ca(trust_ca) unless trust_ca.nil?
     end
-  
+    
+    # Login to the jira instance
+    #
+    # @param [String] username your username
+    # @param [String] password your password
+    #
+    # @raise if login fails
     def login(username, password)
       @token = @soap.login(JIRA_USERNAME, JIRA_PASSWORD)
     
@@ -24,10 +30,22 @@ module BetterJira
       raise "Login Fail!" if res.status != 302 || (res.header['Location'] && res.header['Location'].first[-destination.length, destination.length] != destination)
     end
 
+    # Retrieves all the fields available for edit on the particular issue key
+    #
+    # @param [String] key the issue key to check (ie: TEST-100)
+    # @return [Hash] a hash of jira field id to name
     def fields_for_edit(key)
       BetterJira::array_of_remote_fields_to_map(@soap.getFieldsForEdit(@token, key))
     end
 
+    # Iterates over all the issues in a filter, passing each JiraIssue into the block
+    #
+    # @param [Integer] filter_id the filter to load
+    # @param [Hash] options the options to use when iterating
+    # @option options [Integer] :batch_size (50) the number of issues to retrieve at a time
+    # @option options [Integer] :exclude_if_in_filter (nil) a filter to use as an exclude list if present
+    # @yield a block for iterating over the list
+    # @yieldparam [JiraIssue] issue
     def each_issue_from_filter(filter_id, options ={}, &block)
       options[:batch_size] ||= 50
     
@@ -42,7 +60,6 @@ module BetterJira
       offset = 0
       while( (issues = @soap.getIssuesFromFilterWithLimit(@token, filter_id, offset, options[:batch_size])) != nil) 
         break if offset >= @soap.getIssueCountForFilter(@token, filter_id) 
-        #p offset
         offset += issues.length
       
         issues.each {|issue|
@@ -51,7 +68,7 @@ module BetterJira
         }
       end
     end
-  
+    
     def versions_for_project(project_key)
       @soap.getVersions(@token, project_key)
     end

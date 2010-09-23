@@ -25,6 +25,9 @@ module BetterJira
     custom_field_value(issue, field) { |x| DateTime.parse(x, true) }
   end
   
+  # Converts an array of RemoteFields into a map of id => name
+  #
+  # @return [Hash] the converted map
   def self.array_of_remote_fields_to_map(remote_fields)
     ret = {}
     remote_fields.each{|q| ret[q['id']] = q['name']}
