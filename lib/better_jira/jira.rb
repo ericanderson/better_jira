@@ -2,8 +2,11 @@ require 'soap/wsdlDriver'
 require 'better_jira/utils'
 
 module BetterJira
-
   class Jira
+    # Construct the object
+    #
+    # @param [String] jira_url the base url to your jira instance, ie: https://jira.mycompany.com
+    # @param [String] trust_ca the path to a PEM file that contains a CA certificate to trust
     def initialize(jira_url, trust_ca = nil) 
       @jira_url = jira_url
       @soap = SOAP::WSDLDriverFactory.new(@jira_url + "/rpc/soap/jirasoapservice-v2?wsdl").create_rpc_driver

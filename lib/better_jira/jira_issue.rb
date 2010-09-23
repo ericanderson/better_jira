@@ -34,7 +34,7 @@ module BetterJira
       @jira.update_issue(self[:key], fields)
       initialize(@jira.get_issue(self[:key]), @jira)
     end
-  
+    
     def field_value(key)
       r = self[key]
       r = r.first unless (r.nil?)
@@ -63,18 +63,21 @@ module BetterJira
       BetterJira::custom_field_value_as_date_time(@soap_jira_issue, key.to_s)
     end
   
+    # Returns a list of available actions for this issue
     def available_actions
       ret = {}
       @jira.available_actions(self[:key]).each{|q| ret[q['id']] = q['name']}
       ret
     end
-  
+    
+    # Returns a list of fields for a particular action_id
     def fields_for_action_id(action_id)
       ret = {}
       @jira.fields_for_action(self[:key], action_id).each {|q| ret[q['id']] = q['name']}
       ret
     end
   
+    # Adds a comment to the issue
     def add_comment(comment, options={})
       @jira.add_comment(self[:key], comment, options)
     end
