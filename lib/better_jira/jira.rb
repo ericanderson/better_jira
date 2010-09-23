@@ -169,6 +169,14 @@ module BetterJira
       @soap.progressWorkflowAction(@token, key, workflow_action_id, cfvs)
     end
 
+    # Adds a comment to the issue specified by key
+    #
+    # @param [String] key the issue to comment on
+    # @param [String] comment the comment to use
+    # @param [Hash] options
+    # @option options [String] :body the comment body to use, shouldn't be used
+    # @option options [String] :groupLevel ?
+    # @option options [String] :roleLevel ?
     def add_comment(key, comment, options={})
       options[:body] = comment if options[:body].nil?
     
