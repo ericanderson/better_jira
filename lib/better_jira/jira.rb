@@ -10,7 +10,6 @@ module BetterJira
     def initialize(jira_url, trust_ca = nil) 
       @jira_url = jira_url
       @soap = SOAP::WSDLDriverFactory.new(@jira_url + "/rpc/soap/jirasoapservice-v2?wsdl").create_rpc_driver
-    
       @client = HTTPClient.new
       @client.ssl_config.set_trust_ca(trust_ca) unless trust_ca.nil?
     end
@@ -22,7 +21,7 @@ module BetterJira
     #
     # @raise if login fails
     def login(username, password)
-      @token = @soap.login(JIRA_USERNAME, JIRA_PASSWORD)
+      @token = @soap.login(username, password)
     
       destination = '/success'
       res = @client.post("#{@jira_url}/secure/Dashboard.jspa", {
