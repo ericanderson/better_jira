@@ -34,6 +34,12 @@ module BetterJira
     ret
   end
   
+  def self.simple_soap_mapping(a)
+    ret = {}
+    a.each{|q| ret[q['id']] = q['name']}
+    ret
+  end
+  
   def self.convert_custom_field_value_to_happy_jira_time(value)
     if (value != nil) then
       if (Array === value) then

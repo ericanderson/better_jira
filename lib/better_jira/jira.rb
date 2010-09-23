@@ -37,7 +37,7 @@ module BetterJira
     # @param [String] key the issue key to check (ie: TEST-100)
     # @return [Hash] a hash of jira field id to name
     def fields_for_edit(key)
-      BetterJira::array_of_remote_fields_to_map(@soap.getFieldsForEdit(@token, key))
+      BetterJira::simple_soap_mapping(@soap.getFieldsForEdit(@token, key))
     end
 
     # Iterates over all the issues in a filter, passing each JiraIssue into the block
@@ -189,21 +189,31 @@ module BetterJira
     #
     # @return [Hash] keys are the jira id, values are the name of the action
     def available_actions(key)
-      ret = {}
-      @soap.getAvailableActions(@token, key).each{|q| ret[q['id']] = q['name']}
-      ret
+      BetterJira::simple_soap_mapping(@soap.getAvailableActions(@token, key))
     end
   
+    # Gets the specified issue from the jira server
+    #
+    # @param [String] key the issue key
+    # @return [JiraIssue] the retrieved jira issue
     def get_issue(key)
-      @soap.getIssue(@token, key)
+      JiraIssue.new(@soap.getIssue(@token, key), self)
     end
   
+    # Gets the specified issue from the jira server
+    # @see #get_issue
     def [](key)
-      JiraIssue.new(get_issue(key), self)
+      get_issue(key)
     end
-  
+
+    # Gets the available fields for edit during an action
+    #
+    # @param [String] key the issue to look up
+    # @param [Integer] action_id the action to look up
+    #
+    # @return [Hash] keys are the jira id, values are the name of the field
     def fields_for_action(key, action_id)
-      @soap.getFieldsForAction(@token, key, action_id)
+      BetterJira::simple_soap_mapping(@soap.getFieldsForAction(@token, key, action_id))
     end
   
     def map_version_fields(project, fields, cur_depth = 0, versions = nil)
