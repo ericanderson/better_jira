@@ -4,6 +4,10 @@ This project is still in development. I am still tweaking the APIs on a regular 
 
 The latest version on rubygems.org is v0.0.1.
 
+# Docs #
+
+[master branch @ rubydoc.info](http://rubydoc.info/github/ericanderson/better_jira/master/frames)
+
 # Examples #
 
 ## Print out all issue keys, their available actions, and the fields you can edit with the first action available
@@ -23,5 +27,6 @@ The latest version on rubygems.org is v0.0.1.
 		pp actions
 		puts ""
 		puts "Fields for action #{actions.first.to_s}:"
-		pp jira.fields_for_action_id(actions.first[0])
+		pp jira.fields_for_action_id(actions.first[0]) # Connects to server to get fields
 	}
+
