@@ -189,7 +189,9 @@ module BetterJira
     #
     # @return [Hash] keys are the jira id, values are the name of the action
     def available_actions(key)
-      BetterJira::simple_soap_mapping(@soap.getAvailableActions(@token, key))
+      BetterJira::Exceptions.wrap_soap {
+        BetterJira::simple_soap_mapping(@soap.getAvailableActions(@token, key))
+      }
     end
   
     # Gets the specified issue from the jira server
@@ -213,7 +215,9 @@ module BetterJira
     #
     # @return [Hash] keys are the jira id, values are the name of the field
     def fields_for_action(key, action_id)
-      BetterJira::simple_soap_mapping(@soap.getFieldsForAction(@token, key, action_id))
+      BetterJira::Exceptions.wrap_soap {
+        BetterJira::simple_soap_mapping(@soap.getFieldsForAction(@token, key, action_id))
+      }
     end
   
     def map_version_fields(project, fields, cur_depth = 0, versions = nil)
