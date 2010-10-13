@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   
   s.add_runtime_dependency('httpclient', '>=2.1.5.2')
-  s.add_runtime_dependency('soap4r', '1.5.8')
+  s.add_runtime_dependency('mumboe-soap4r', '1.5.8.3')
   s.add_development_dependency('rake')
   
   s.files        = Dir['{lib}/**/*']
